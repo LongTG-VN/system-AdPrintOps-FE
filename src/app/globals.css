@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-heading: 'Times New Roman', Times, serif;
+    --font-body: 'Times New Roman', Times, serif;
+  }
+}
+
+body {
+  background-color: #fafafa;
+  color: #09090b;
+  min-height: 100vh;
+  font-family: 'Times New Roman', Times, serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Minimalist Clean Card Styles */
+.mono-card {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.mono-card-hover {
+  transition: all 0.15s ease-in-out;
+}
+
+.mono-card-hover:hover {
+  border-color: #a1a1aa;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Form Element Overrides */
+input[type="text"],
+input[type="number"],
+select {
+  background-color: #ffffff;
+  border: 1px solid #d4d4d8;
+  color: #09090b;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-family: 'Times New Roman', Times, serif;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: #18181b;
+  box-shadow: 0 0 0 1px #18181b;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f4f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
