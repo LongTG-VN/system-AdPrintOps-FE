@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       html: htmlContent,
     };
 
-    if (imageDataBase64 && typeof imageDataBase64 === 'string' && imageDataBase64.contains && imageDataBase64.includes(',')) {
+    if (imageDataBase64 && typeof imageDataBase64 === 'string' && imageDataBase64.includes(',')) {
       const base64Data = imageDataBase64.split(',')[1];
       resendPayload.attachments = [
         {
