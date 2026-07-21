@@ -12,6 +12,7 @@ export function FeedbackWidget() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const recipientGmail = 'gialong.game@gmail.com';
 
@@ -45,6 +46,7 @@ export function FeedbackWidget() {
     if (!reasonInput.trim()) return;
 
     setIsSubmitting(true);
+    setErrorMessage('');
     try {
       let imageBase64 = '';
       if (selectedFile) {
@@ -80,16 +82,8 @@ export function FeedbackWidget() {
         setReasonInput('');
         handleRemoveFile();
       }, 2500);
-    } catch {
-      // Fallback display success for user experience
-      setSuccessMessage(`Đã ghi nhận góp ý và gửi tới ${recipientGmail}!`);
-      setSubmitted(true);
-      setTimeout(() => {
-        setSubmitted(false);
-        setIsOpen(false);
-        setReasonInput('');
-        handleRemoveFile();
-      }, 2500);
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'Không thể gửi góp ý. Vui lòng thử lại.');
     } finally {
       setIsSubmitting(false);
     }
@@ -154,6 +148,11 @@ export function FeedbackWidget() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="p-6 space-y-4 text-xs sm:text-sm">
+                {errorMessage && (
+                  <div role="alert" className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 font-medium">
+                    {errorMessage}
+                  </div>
+                )}
                 {/* Target Email Banner */}
                 <div className="p-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-xs flex items-center justify-between">
                   <span className="text-zinc-600">Email nhận thông báo trực tiếp:</span>
