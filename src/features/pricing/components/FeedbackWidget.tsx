@@ -51,7 +51,9 @@ export function FeedbackWidget() {
         imageBase64 = await convertFileToBase64(selectedFile);
       }
 
-      const res = await fetch('http://localhost:8080/api/v1/feedback', {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+
+      const res = await fetch(`${baseUrl}/feedback`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
