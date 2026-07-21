@@ -14,7 +14,7 @@ export function FeedbackWidget() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const recipientGmail = 'gialong.game@gmail.com';
+  const recipientGmail = 'longtg.ce191181@gmail.com';
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -53,9 +53,8 @@ export function FeedbackWidget() {
         imageBase64 = await convertFileToBase64(selectedFile);
       }
 
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
-
-      const res = await fetch(`${baseUrl}/feedback`, {
+      // Try Next.js Vercel native API route first (0 CORS, 0 Backend dependence)
+      let res = await fetch('/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,8 +67,26 @@ export function FeedbackWidget() {
         }),
       });
 
+      // Fallback to Backend API if Vercel route is unavailable
       if (!res.ok) {
-        throw new Error('Gửi góp ý thất bại');
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+        res = await fetch(`${baseUrl}/feedback`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            reasonDetails: reasonInput,
+            recipientEmail: recipientGmail,
+            fileName: selectedFile ? selectedFile.name : null,
+            imageDataBase64: imageBase64 || null,
+          }),
+        });
+      }
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Gửi góp ý thất bại. Vui lòng thử lại.');
       }
 
       const data = await res.json();
@@ -153,6 +170,7 @@ export function FeedbackWidget() {
                     {errorMessage}
                   </div>
                 )}
+
                 {/* Target Email Banner */}
                 <div className="p-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-xs flex items-center justify-between">
                   <span className="text-zinc-600">Email nhận thông báo trực tiếp:</span>
