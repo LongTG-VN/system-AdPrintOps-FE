@@ -28,7 +28,7 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
   const [tacCount, setTacCount] = useState<number>(5);
 
   const [hiflexType, setHiflexType] = useState<string>('lua');
-  const [frameTubeSize, setFrameTubeSize] = useState<number>(16);
+  const [frameTubeSize, setFrameTubeSize] = useState<number>(0);
   const [marginCm, setMarginCm] = useState<number>(5);
   const [hasLeg, setHasLeg] = useState<boolean>(false);
 
@@ -471,7 +471,7 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
                 onChange={(e) => setFrameTubeSize(parseInt(e.target.value, 10))}
                 className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
               >
-                <option value={0}>Không có khung sắt</option>
+                <option value={0}>Không có khung sắt (0đ)</option>
                 <option value={16}>Vuông 16 — 65.000đ/m</option>
                 <option value={20}>Vuông 20 — 85.000đ/m</option>
                 <option value={25}>Vuông 25 — 105.000đ/m</option>
