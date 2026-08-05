@@ -797,23 +797,7 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
         </div>
       )}
 
-      {/* Active Materials Dropdown (when fetched dynamically from DB) */}
-      {materials.length > 0 && category !== 'bang' && category !== 'khac' && category !== 'tranh' && (
-        <div>
-          <label className="block font-semibold text-zinc-800 mb-1">Vật Liệu CSDL:</label>
-          <select
-            value={materialCode}
-            onChange={(e) => setMaterialCode(e.target.value)}
-            className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
-          >
-            {materials.map((m) => (
-              <option key={m.materialCode} value={m.materialCode}>
-                {m.materialName} (Hệ số: x{m.multiplier})
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
+
 
       {/* Quantity Input */}
       {category !== 'card' && (giayGroup !== 'roi-a4' && giayGroup !== 'roi-a5') && (
