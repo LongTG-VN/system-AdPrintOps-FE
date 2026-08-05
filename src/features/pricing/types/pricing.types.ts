@@ -21,6 +21,10 @@ export interface DecalPriceResponse {
   totalPrice: number;
   category: string;
   pricingNote: string;
+  widthCm?: number;
+  heightCm?: number;
+  quantity?: number;
+  materialCode?: string;
   vatIncluded?: boolean;
   lineItems?: LineItem[];
   appliedRules?: string[];

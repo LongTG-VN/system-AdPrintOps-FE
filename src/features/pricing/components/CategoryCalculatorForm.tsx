@@ -292,7 +292,8 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
           </div>
           <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-lg text-xs text-zinc-600 leading-relaxed">
             • Khổ cuộn: 90cm, 100cm, 120cm, 1m5.<br />
-            • &lt; 0.5m² (vô khổ / dôi khổ): 130.000đ/m².<br />
+            • &lt; 0.1m²: 200k/m² | &lt; 1.0m²: 130k/m².<br />
+            • <strong>Khổ &ge; 1.0m² (Khổ 1m): 120.000đ/m²</strong>.<br />
             • &ge; 3m²: 110k/m² | &ge; 5m²: 100k/m² | &ge; 10m²: 90k/m² | &ge; 15m²: 80k/m².
           </div>
         </div>
@@ -435,7 +436,7 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
               <label className="block font-semibold text-zinc-800 mb-1">Khung Sắt Sắt Vuông:</label>
               <select
                 value={frameTubeSize}
-                onChange={(e) => setFrameTubeSize(parseInt(e.target.value) || 16)}
+                onChange={(e) => setFrameTubeSize(parseInt(e.target.value, 10))}
                 className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
               >
                 <option value={0}>Không có khung sắt</option>
@@ -513,23 +514,32 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
           </div>
 
           {giayGroup === 'giay' && (
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block font-semibold text-zinc-800 mb-1">Khổ giấy:</label>
-                <select value={giayKho} onChange={(e) => setGiayKho(e.target.value)} className="w-full bg-white border border-zinc-300 rounded px-2 py-1.5">
-                  <option value="a5">A5</option>
-                  <option value="a4">A4</option>
-                  <option value="a3">A3</option>
-                </select>
+            <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-zinc-800 mb-1">Khổ giấy:</label>
+                  <select value={giayKho} onChange={(e) => setGiayKho(e.target.value)} className="w-full bg-white border border-zinc-300 rounded px-2 py-1.5">
+                    <option value="a5">A5</option>
+                    <option value="a4">A4</option>
+                    <option value="a3">A3</option>
+                    <option value="a2">A2</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-semibold text-zinc-800 mb-1">Loại giấy / Mặt:</label>
+                  <select value={giayType} onChange={(e) => setGiayType(e.target.value)} className="w-full bg-white border border-zinc-300 rounded px-2 py-1.5">
+                    <option value="day1">Dày — 1 mặt</option>
+                    <option value="day2">Dày — 2 mặt</option>
+                    <option value="bong1">Bóng dày — 1 mặt</option>
+                    <option value="bong2">Bóng dày — 2 mặt</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <label className="block font-semibold text-zinc-800 mb-1">Loại giấy / Mặt:</label>
-                <select value={giayType} onChange={(e) => setGiayType(e.target.value)} className="w-full bg-white border border-zinc-300 rounded px-2 py-1.5">
-                  <option value="day1">Dày — 1 mặt</option>
-                  <option value="day2">Dày — 2 mặt</option>
-                  <option value="bong1">Bóng dày — 1 mặt</option>
-                  <option value="bong2">Bóng dày — 2 mặt</option>
-                </select>
+              <div className="p-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-xs text-zinc-600 leading-relaxed">
+                • <strong>A4:</strong> 1 tấm 30k | 2 tấm 50k | từ tấm thứ 3 (+20k/tấm)<br />
+                • <strong>A3:</strong> 1 tấm 50k | 2 tấm 80k | từ tấm thứ 3 (+30k/tấm)<br />
+                • <strong>A2:</strong> 1 tấm 70k | 2 tấm 110k | từ tấm thứ 3 (+40k/tấm)<br />
+                • <strong>A5:</strong> 1 tấm 20k | 2 tấm 35k | từ tấm thứ 3 (+15k/tấm)
               </div>
             </div>
           )}
@@ -746,8 +756,26 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
 
       {/* Quantity Input */}
       {category !== 'card' && (giayGroup !== 'roi-a4' && giayGroup !== 'roi-a5') && (
-        <div>
-          <label className="block font-semibold text-zinc-800 mb-1">Số Lượng:</label>
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <label className="block font-semibold text-zinc-800">Số Lượng (Tấm / Cái):</label>
+            <div className="flex items-center gap-1">
+              {[1, 2, 3, 5, 10].map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  onClick={() => setQuantity(q)}
+                  className={`px-2 py-0.5 rounded text-xs font-mono border cursor-pointer ${
+                    quantity === q
+                      ? 'bg-zinc-900 text-white border-zinc-900 font-bold'
+                      : 'bg-zinc-100 text-zinc-700 border-zinc-200 hover:bg-zinc-200'
+                  }`}
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
           <input
             type="number"
             min={1}
