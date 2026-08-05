@@ -120,9 +120,9 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
       rollWidthTac: category === 'cat' && cutMode === 'le' ? rollWidthTac : undefined,
       sheetCount: category === 'cat' && cutMode === 'le' ? tacCount : undefined,
       hiflexType: category === 'hiflex' ? hiflexType : undefined,
-      frameTubeSize: category === 'hiflex' ? frameTubeSize : undefined,
+      frameTubeSize: category === 'hiflex' || category === 'bang' ? frameTubeSize : undefined,
       marginCm: category === 'hiflex' ? marginCm : undefined,
-      hasLeg: category === 'hiflex' ? hasLeg : undefined,
+      hasLeg: category === 'hiflex' || category === 'bang' ? hasLeg : undefined,
       paperSubtype: category === 'giay' ? paperSubtypeMapped : undefined,
       paperGsm: category === 'giay' && (giayGroup === 'roi-a4' || giayGroup === 'roi-a5') ? gsmMapped : undefined,
       paperSides: category === 'giay' && giayGroup === 'ep' ? epMat : undefined,
@@ -391,26 +391,58 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
 
       {/* BANG (Signboard) specific material preset */}
       {category === 'bang' && (
-        <div>
-          <label className="block font-semibold text-zinc-800 mb-1">Vật Liệu & Cách Làm Bảng Hiệu:</label>
-          <select
-            value={materialCode}
-            onChange={(e) => setMaterialCode(e.target.value)}
-            className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
-          >
-            <option value="tole-in">Tole — In decal dán</option>
-            <option value="tole-cat">Tole — Cắt decal dán</option>
-            <option value="form-in">Formex — In decal dán</option>
-            <option value="form-cat">Formex — Cắt decal dán</option>
-            <option value="alu-in">Alu — In decal dán</option>
-            <option value="alu-cat">Alu — Cắt decal dán</option>
-            <option value="mica-in">Mica — In decal dán</option>
-            <option value="mica-cat">Mica — Cắt decal dán</option>
-          </select>
-          <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-lg text-xs text-zinc-600 mt-2 leading-relaxed">
+        <div className="space-y-3 p-3 bg-zinc-50 rounded-lg border border-zinc-200">
+          <div>
+            <label className="block font-semibold text-zinc-800 mb-1">Vật Liệu & Cách Làm Bảng Hiệu:</label>
+            <select
+              value={materialCode}
+              onChange={(e) => setMaterialCode(e.target.value)}
+              className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
+            >
+              <option value="tole-in">Tole — In decal dán</option>
+              <option value="tole-cat">Tole — Cắt decal dán</option>
+              <option value="form-in">Formex — In decal dán</option>
+              <option value="form-cat">Formex — Cắt decal dán</option>
+              <option value="alu-in">Alu — In decal dán</option>
+              <option value="alu-cat">Alu — Cắt decal dán</option>
+              <option value="mica-in">Mica — In decal dán</option>
+              <option value="mica-cat">Mica — Cắt decal dán</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block font-semibold text-zinc-800 mb-1">Khung Sắt Sắt Vuông:</label>
+            <select
+              value={frameTubeSize}
+              onChange={(e) => setFrameTubeSize(parseInt(e.target.value, 10))}
+              className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
+            >
+              <option value={0}>Không có khung sắt (0đ)</option>
+              <option value={16}>Vuông 16 — 65.000đ/m</option>
+              <option value={20}>Vuông 20 — 85.000đ/m</option>
+              <option value={25}>Vuông 25 — 105.000đ/m</option>
+            </select>
+          </div>
+
+          {frameTubeSize > 0 && (
+            <div className="flex items-center gap-2 pt-1">
+              <input
+                type="checkbox"
+                id="hasLegBang"
+                checked={hasLeg}
+                onChange={(e) => setHasLeg(e.target.checked)}
+                className="w-4 h-4 text-zinc-900 border-zinc-300 rounded focus:ring-zinc-900 cursor-pointer"
+              />
+              <label htmlFor="hasLegBang" className="font-medium text-zinc-800 cursor-pointer text-sm">
+                Gia công thêm 2 chân đứng (+4m sắt)
+              </label>
+            </div>
+          )}
+
+          <div className="p-3 bg-zinc-100 border border-zinc-200 rounded-lg text-xs text-zinc-600 leading-relaxed">
             • Diện tích ≤ 0.06m²: Tính giá khoán Mini<br />
             • Diện tích &lt; 0.5m²: Tính giá khoán Vừa (Mid)<br />
-            • Diện tích $\ge$ 0.5m²: Tính giá khoán Khổ Lớn (Large)
+            • Diện tích &ge; 0.5m²: Tính giá khoán Khổ Lớn (Large)
           </div>
         </div>
       )}
