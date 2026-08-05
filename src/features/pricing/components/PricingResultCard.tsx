@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Calculator, FilePlus, CheckCircle2, Loader2, ArrowRight, ShoppingCart, Eye, EyeOff } from 'lucide-react';
+import { Calculator, FilePlus, CheckCircle2, Loader2, ArrowRight, ShoppingCart } from 'lucide-react';
 import { formatCurrency } from '@/shared/lib/utils';
 import { DecalPriceResponse } from '../types/pricing.types';
 import { OrderService } from '@/features/orders/services/order.service';
@@ -17,7 +17,6 @@ export function PricingResultCard({ result, onOrderCreated }: PricingResultCardP
   const [creating, setCreating] = useState(false);
   const [createdOrderCode, setCreatedOrderCode] = useState<string | null>(null);
   const [createError, setCreateError] = useState<string | null>(null);
-  const [showCostPrice, setShowCostPrice] = useState(false);
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -142,58 +141,6 @@ export function PricingResultCard({ result, onOrderCreated }: PricingResultCardP
           )}
         </div>
       )}
-
-      {/* Hidden Toggleable Cost Reference Box (Nam Dung Supplier Cost) */}
-      <div className="w-full mt-3 pt-3 border-t border-zinc-200">
-        <button
-          type="button"
-          onClick={() => setShowCostPrice(!showCostPrice)}
-          className="w-full flex items-center justify-between px-3 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold rounded-lg text-xs transition cursor-pointer border border-zinc-200"
-        >
-          <span className="flex items-center gap-1.5">
-            {showCostPrice ? <EyeOff className="w-3.5 h-3.5 text-zinc-600" /> : <Eye className="w-3.5 h-3.5 text-amber-600" />}
-            {showCostPrice ? 'Ẩn Giá Gốc (Nam Dũng)' : '👁️ Xem Giá Gốc Tham Khảo (Nam Dũng)'}
-          </span>
-          <span className="text-[10px] text-zinc-500 font-mono">{showCostPrice ? '▼' : '▲'}</span>
-        </button>
-
-        {showCostPrice && (
-          <div className="mt-2.5 p-3 bg-amber-50/80 border border-amber-200 rounded-xl text-left text-xs space-y-2 text-zinc-900 leading-relaxed">
-            <div className="font-bold text-amber-900 border-b border-amber-200 pb-1 flex items-center justify-between">
-              <span>📋 Bảng Giá Gốc Đầu Vào (Nam Dũng)</span>
-              <span className="text-[10px] font-normal text-amber-700">Khổ A5 = A4</span>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <div className="bg-white p-2 rounded border border-amber-200/60">
-                <div className="font-bold text-zinc-900 mb-1">📄 Giấy Dày (A4/A5):</div>
-                <div>• 1 mặt: <strong className="text-emerald-700 font-mono">7.000đ</strong></div>
-                <div>• 2 mặt: <strong className="text-emerald-700 font-mono">13.000đ</strong></div>
-                <div className="font-bold text-zinc-900 mt-1 mb-1">📄 Giấy Dày (A3):</div>
-                <div>• 1 mặt: <strong className="text-emerald-700 font-mono">13.000đ</strong></div>
-                <div>• 2 mặt: <strong className="text-emerald-700 font-mono">26.000đ</strong></div>
-              </div>
-
-              <div className="bg-white p-2 rounded border border-amber-200/60">
-                <div className="font-bold text-zinc-900 mb-1">✨ Bóng Dày (A4/A5):</div>
-                <div>• 1 mặt: <strong className="text-emerald-700 font-mono">9.000đ</strong></div>
-                <div>• 2 mặt: <strong className="text-emerald-700 font-mono">17.000đ</strong></div>
-                <div className="font-bold text-zinc-900 mt-1 mb-1">✨ Bóng Dày (A3):</div>
-                <div>• 1 mặt: <strong className="text-emerald-700 font-mono">17.000đ</strong></div>
-                <div>• 2 mặt: <strong className="text-emerald-700 font-mono">34.000đ</strong></div>
-              </div>
-            </div>
-
-            <div className="bg-white p-2 rounded border border-amber-200/60 text-[11px] space-y-1">
-              <div className="font-bold text-zinc-900">🛡️ Ép Nhựa Dẻo:</div>
-              <div className="grid grid-cols-2 gap-1">
-                <div>A4 1m: <strong className="text-emerald-700 font-mono">20k</strong> | 2m: <strong className="text-emerald-700 font-mono">25k</strong></div>
-                <div>A3 1m: <strong className="text-emerald-700 font-mono">30k</strong> | 2m: <strong className="text-emerald-700 font-mono">40k</strong></div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
     </div>
   );
 }
