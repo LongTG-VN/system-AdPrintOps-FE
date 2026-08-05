@@ -172,41 +172,70 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
           <span className="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider flex items-center gap-1 mr-1">
             <Zap className="w-3 h-3 text-zinc-700" /> Nhanh:
           </span>
-          <button
-            type="button"
-            onClick={() => applyPresetDim(0.21, 0.3)}
-            className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
-          >
-            A4 (0.21x0.3m)
-          </button>
-          <button
-            type="button"
-            onClick={() => applyPresetDim(0.3, 0.42)}
-            className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
-          >
-            A3 (0.3x0.42m)
-          </button>
-          <button
-            type="button"
-            onClick={() => applyPresetDim(0.42, 0.6)}
-            className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
-          >
-            A2 (0.42x0.6m)
-          </button>
-          <button
-            type="button"
-            onClick={() => applyPresetDim(1.0, 1.0)}
-            className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
-          >
-            1m x 1m
-          </button>
-          <button
-            type="button"
-            onClick={() => applyPresetDim(1.0, 2.0)}
-            className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
-          >
-            1m x 2m
-          </button>
+
+          {category === 'giay' ? (
+            <>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(0.148, 0.21)}
+                className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
+              >
+                A5 (0.15x0.21m)
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(0.21, 0.3)}
+                className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
+              >
+                A4 (0.21x0.3m)
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(0.3, 0.42)}
+                className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
+              >
+                A3 (0.3x0.42m)
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(0.42, 0.6)}
+                className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
+              >
+                A2 (0.42x0.6m)
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(0.5, 1.0)}
+                className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold border border-zinc-200 cursor-pointer transition"
+              >
+                Nửa mét (0.5m x 1m)
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(1.0, 1.0)}
+                className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold border border-zinc-200 cursor-pointer transition"
+              >
+                1 mét vuông (1m²)
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(1.0, 2.0)}
+                className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold border border-zinc-200 cursor-pointer transition"
+              >
+                2 mét vuông (2m²)
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(1.0, 3.0)}
+                className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold border border-zinc-200 cursor-pointer transition"
+              >
+                3 mét vuông (3m²)
+              </button>
+            </>
+          )}
         </div>
       )}
 
