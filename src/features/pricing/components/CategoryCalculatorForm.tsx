@@ -376,24 +376,9 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
         </div>
       )}
 
-      {/* CAT (Cut Decal) specific modes & materials */}
+      {/* CAT (Cut Decal) specific modes */}
       {category === 'cat' && (
         <div className="space-y-3 p-3 bg-zinc-50 rounded-lg border border-zinc-200">
-          <div>
-            <label className="block font-semibold text-zinc-800 mb-1">Chất Liệu Cắt Decal Dán Kính:</label>
-            <select
-              value={materialCode}
-              onChange={(e) => setMaterialCode(e.target.value)}
-              className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
-            >
-              <option value="decal_si">Decal si (3 tháng) khổ 60 — 100.000đ/m²</option>
-              <option value="decal_pq">Decal PQ khổ 60 (Dạ quang / 1.5 năm) — 200.000đ/m²</option>
-              <option value="decal_in_be">Decal in bế khổ 90/100/120 (8 tháng - 1 năm) — 200.000đ/m²</option>
-              <option value="decal_tot_1">Decal tốt 1 lớp khổ 120 (2.5 năm - Nền trắng) — 150.000đ/m²</option>
-              <option value="decal_tot_2">Decal tốt 2 lớp khổ 120 (2.5 năm) — 300.000đ/m²</option>
-            </select>
-          </div>
-
           <div>
             <label className="block font-semibold text-zinc-800 mb-1">Kiểu Cắt Decal:</label>
             <select
