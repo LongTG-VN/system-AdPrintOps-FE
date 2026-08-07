@@ -54,6 +54,8 @@ export interface CalculatePriceRequest {
   tranhType?: string;
   tranhPreset?: string;
   tranhPackage?: string;
+  eyeletCount?: number;
+  polePocketMode?: string;
 }
 
 export interface CalculatePriceResponse {

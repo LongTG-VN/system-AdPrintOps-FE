@@ -33,6 +33,8 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
   const [frameTubeSize, setFrameTubeSize] = useState<number>(0);
   const [marginCm, setMarginCm] = useState<number>(5);
   const [hasLeg, setHasLeg] = useState<boolean>(false);
+  const [eyeletCount, setEyeletCount] = useState<number>(0);
+  const [polePocketMode, setPolePocketMode] = useState<string>('none');
 
   const [giayGroup, setGiayGroup] = useState<string>('giay'); // giay, ep, roi-a4, roi-a5, bangten
   const [giayKho, setGiayKho] = useState<string>('a4'); // a5, a4, a3
@@ -131,10 +133,13 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
       tranhType: category === 'tranh' ? tranhType : undefined,
       tranhPreset: category === 'tranh' ? tranhPreset : category === 'giay' && (giayGroup === 'giay' || giayGroup === 'ep') ? giayKho.toUpperCase() : undefined,
       tranhPackage: category === 'tranh' ? tranhPackage : category === 'giay' && giayGroup === 'bangten' ? bangTenMau : undefined,
+      eyeletCount: category === 'hiflex' || category === 'decal' ? eyeletCount : undefined,
+      polePocketMode: category === 'hiflex' || category === 'decal' ? polePocketMode : undefined,
     };
   }, [
     category, widthM, heightM, quantity, boxCount, materialCode, hasLamination, hasDieCut,
     cutMode, maxSideM, rollWidthTac, tacCount, hiflexType, frameTubeSize, marginCm, hasLeg,
+    eyeletCount, polePocketMode,
     giayGroup, giayKho, giayType, epMat, paperGsm, roiA4Sl, roiA5Sl, bangTenLoai, bangTenMau,
     tranhType, tranhPreset, tranhPackage
   ]);
@@ -544,6 +549,37 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
                 <option value={10}>Căn khung 10cm (+20cm lề)</option>
               </select>
             </div>
+          </div>
+
+          {/* Dán Xỏ Cây & Đóng Khoen */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block font-semibold text-zinc-800 mb-1">Dán Xỏ Cây (+5cm lề keo):</label>
+              <select
+                value={polePocketMode}
+                onChange={(e) => setPolePocketMode(e.target.value)}
+                className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
+              >
+                <option value="none">Không dán xỏ cây</option>
+                <option value="top_bottom">2 đầu trên/dưới (+5cm lề)</option>
+                <option value="left_right">2 đầu 2 bên (+5cm lề)</option>
+                <option value="all_4">Dán cả 4 cạnh (+5cm lề)</option>
+              </select>
+            </div>
+            <div>
+              <label className="block font-semibold text-zinc-800 mb-1">Số Lượng Khoen (2k/cái):</label>
+              <input
+                type="number"
+                min={0}
+                value={eyeletCount}
+                onChange={(e) => setEyeletCount(Math.max(0, parseInt(e.target.value, 10) || 0))}
+                className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900 font-mono"
+              />
+            </div>
+          </div>
+
+          <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 leading-relaxed font-medium">
+            🎁 <strong>Ưu đãi đơn &gt; 150.000đ:</strong> Tặng 4 khoen miễn phí + dán 2 cạnh ngắn!
           </div>
 
           <div className="flex items-center gap-2 pt-1">
