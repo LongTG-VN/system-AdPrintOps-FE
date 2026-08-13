@@ -12,7 +12,8 @@ import {
   Image as ImageIcon, 
   PlusCircle, 
   Calculator,
-  Settings
+  Settings,
+  History
 } from 'lucide-react';
 import { Card } from '@/shared/components/ui/card';
 import { CategoryCalculatorForm } from './CategoryCalculatorForm';
@@ -28,7 +29,7 @@ interface PricingFeatureProps {
 }
 
 export function PricingFeature({ onOrderCreated, hideHeader = false }: PricingFeatureProps = {}) {
-  const [viewMode, setViewMode] = useState<'calc' | 'manage'>('calc');
+  const [viewMode, setViewMode] = useState<'calc' | 'manage' | 'history'>('calc');
   const [activeTab, setActiveTab] = useState<PricingTabCategory>('decal');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<DecalPriceResponse | null>(null);
@@ -79,7 +80,7 @@ export function PricingFeature({ onOrderCreated, hideHeader = false }: PricingFe
   return (
     <div className={hideHeader ? "bg-transparent text-zinc-900" : "min-h-screen bg-zinc-50 text-zinc-900 pb-16"}>
       {/* Top Header Bar */}
-      {!hideHeader && (
+      {!hideHeader ? (
         <header className="border-b border-zinc-200 bg-white sticky top-0 z-10 shadow-2xs">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -116,11 +117,66 @@ export function PricingFeature({ onOrderCreated, hideHeader = false }: PricingFe
                 }`}
               >
                 <Settings className="w-3.5 h-3.5" />
-                Quản Lý Bảng Giá & Đơn Giá
+                Quản Lý Bảng Giá
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('history')}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition cursor-pointer ${
+                  viewMode === 'history'
+                    ? 'bg-zinc-900 text-white shadow-xs'
+                    : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-200'
+                }`}
+              >
+                <History className="w-3.5 h-3.5 text-amber-500" />
+                Lịch Sử Chỉnh Giá
               </button>
             </div>
           </div>
         </header>
+      ) : (
+        /* Embedded Sub-Header Navigation Switcher */
+        <div className="flex items-center justify-between pb-4 mb-4 border-b border-zinc-200">
+          <div className="text-xs font-semibold text-zinc-500">Chế độ xem:</div>
+          <div className="flex items-center gap-1 bg-white p-1 rounded-lg border border-zinc-200 shadow-2xs">
+            <button
+              type="button"
+              onClick={() => setViewMode('calc')}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition cursor-pointer ${
+                viewMode === 'calc'
+                  ? 'bg-zinc-900 text-white shadow-xs'
+                  : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
+              }`}
+            >
+              <Calculator className="w-3.5 h-3.5" />
+              Tính Giá Tự Động
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('manage')}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition cursor-pointer ${
+                viewMode === 'manage'
+                  ? 'bg-zinc-900 text-white shadow-xs'
+                  : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
+              }`}
+            >
+              <Settings className="w-3.5 h-3.5" />
+              Quản Lý Bảng Giá
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('history')}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition cursor-pointer ${
+                viewMode === 'history'
+                  ? 'bg-zinc-900 text-white shadow-xs'
+                  : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
+              }`}
+            >
+              <History className="w-3.5 h-3.5 text-amber-500" />
+              Lịch Sử Chỉnh Giá
+            </button>
+          </div>
+        </div>
       )}
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-6">
@@ -186,9 +242,9 @@ export function PricingFeature({ onOrderCreated, hideHeader = false }: PricingFe
             </div>
           </>
         ) : (
-          /* Admin Pricing Management View */
+          /* Admin Pricing Management & Audit History Views */
           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
-            <AdminPricingManagement />
+            <AdminPricingManagement initialTab={viewMode === 'history' ? 'history' : 'rules'} />
           </div>
         )}
       </main>

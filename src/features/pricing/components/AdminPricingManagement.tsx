@@ -5,8 +5,19 @@ import { PricingService } from '../services/pricing.service';
 import { PricingRule, PricingMaterial, PricingHistory } from '../types/pricing.types';
 import { ShieldCheck, History, RefreshCw, Save, Layers, Tag } from 'lucide-react';
 
-export const AdminPricingManagement: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'rules' | 'materials' | 'history'>('rules');
+interface AdminPricingManagementProps {
+  initialTab?: 'rules' | 'materials' | 'history';
+}
+
+export const AdminPricingManagement: React.FC<AdminPricingManagementProps> = ({ initialTab = 'rules' }) => {
+  const [activeTab, setActiveTab] = useState<'rules' | 'materials' | 'history'>(initialTab);
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
+
   const [selectedCategory, setSelectedCategory] = useState<string>('DECAL');
 
   const [rules, setRules] = useState<PricingRule[]>([]);
@@ -305,32 +316,56 @@ export const AdminPricingManagement: React.FC = () => {
                   <thead>
                     <tr className="border-b border-zinc-200 text-zinc-500 uppercase tracking-wider">
                       <th className="py-2.5 px-3 font-semibold">Thời Gian</th>
-                      <th className="py-2.5 px-3 font-semibold">Loại</th>
-                      <th className="py-2.5 px-3 font-semibold">Tên Mục</th>
-                      <th className="py-2.5 px-3 font-semibold">Giá Cũ &rarr; Giá Mới</th>
-                      <th className="py-2.5 px-3 font-semibold">Người Thay Đổi</th>
+                      <th className="py-2.5 px-3 font-semibold">Phân Loại</th>
+                      <th className="py-2.5 px-3 font-semibold">Nội Dung Biến Động</th>
+                      <th className="py-2.5 px-3 font-semibold">Giá Cũ &rarr; Giá Mới Mới Nhất</th>
+                      <th className="py-2.5 px-3 font-semibold">Người Thực Hiện</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-100">
-                    {histories.map((h) => (
-                      <tr key={h.id} className="hover:bg-zinc-50">
-                        <td className="py-3 px-3 font-mono text-zinc-500">
-                          {new Date(h.createdAt).toLocaleString('vi-VN')}
-                        </td>
-                        <td className="py-3 px-3">
-                          <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-zinc-100 text-zinc-800 border border-zinc-200">
-                            {h.targetType}
-                          </span>
-                        </td>
-                        <td className="py-3 px-3 font-medium text-zinc-900">{h.fieldName} (ID: {h.targetId})</td>
-                        <td className="py-3 px-3 font-mono">
-                          <span className="text-zinc-400 line-through mr-1.5">{h.oldValue}</span>
-                          &rarr;
-                          <span className="text-zinc-900 font-bold ml-1.5">{h.newValue}</span>
-                        </td>
-                        <td className="py-3 px-3 text-zinc-600">{h.changedBy}</td>
-                      </tr>
-                    ))}
+                    {histories.map((h) => {
+                      const formatField = (field: string) => {
+                        switch (field) {
+                          case 'price_per_sqm': return 'Đơn giá / m²';
+                          case 'multiplier': return 'Hệ số giá';
+                          case 'lamination_fee_per_sqm': return 'Phí cán màng / m²';
+                          case 'is_active': return 'Trạng thái hoạt động';
+                          case 'rule_name': return 'Tên quy tắc';
+                          case 'CREATE': return 'Tạo mới dữ liệu';
+                          default: return field;
+                        }
+                      };
+
+                      return (
+                        <tr key={h.id} className="hover:bg-zinc-50 transition-colors">
+                          <td className="py-3 px-3 font-mono text-zinc-500 whitespace-nowrap">
+                            {new Date(h.createdAt).toLocaleString('vi-VN')}
+                          </td>
+                          <td className="py-3 px-3 whitespace-nowrap">
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                              h.targetType === 'RULE' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                            }`}>
+                              {h.targetType === 'RULE' ? 'Quy Tắc Giá' : 'Vật Liệu'}
+                            </span>
+                          </td>
+                          <td className="py-3 px-3 font-medium text-zinc-900">
+                            {formatField(h.fieldName)} <span className="text-zinc-400 text-[11px] font-normal">(ID: #{h.targetId})</span>
+                          </td>
+                          <td className="py-3 px-3 font-mono">
+                            {h.oldValue ? (
+                              <>
+                                <span className="text-zinc-400 line-through mr-1.5">{h.oldValue}</span>
+                                &rarr;
+                              </>
+                            ) : null}
+                            <span className="text-zinc-900 font-bold ml-1.5 bg-amber-50 text-amber-900 px-1.5 py-0.5 rounded border border-amber-200">
+                              {h.newValue}
+                            </span>
+                          </td>
+                          <td className="py-3 px-3 text-zinc-600 font-medium whitespace-nowrap">{h.changedBy}</td>
+                        </tr>
+                      );
+                    })}
 
                     {histories.length === 0 && (
                       <tr>
