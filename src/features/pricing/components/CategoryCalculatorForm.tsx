@@ -35,6 +35,7 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
   const [hasLeg, setHasLeg] = useState<boolean>(false);
   const [eyeletCount, setEyeletCount] = useState<number>(0);
   const [polePocketMode, setPolePocketMode] = useState<string>('none');
+  const [hasDesignFee, setHasDesignFee] = useState<boolean>(false);
 
   const [giayGroup, setGiayGroup] = useState<string>('giay'); // giay, ep, roi-a4, roi-a5, bangten
   const [giayKho, setGiayKho] = useState<string>('a4'); // a5, a4, a3
@@ -135,11 +136,12 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
       tranhPackage: category === 'tranh' ? tranhPackage : category === 'giay' && giayGroup === 'bangten' ? bangTenMau : undefined,
       eyeletCount: category === 'hiflex' || category === 'decal' ? eyeletCount : undefined,
       polePocketMode: category === 'hiflex' || category === 'decal' ? polePocketMode : undefined,
+      customFee: hasDesignFee ? 50000 : undefined,
     };
   }, [
     category, widthM, heightM, quantity, boxCount, materialCode, hasLamination, hasDieCut,
     cutMode, maxSideM, rollWidthTac, tacCount, hiflexType, frameTubeSize, marginCm, hasLeg,
-    eyeletCount, polePocketMode,
+    eyeletCount, polePocketMode, hasDesignFee,
     giayGroup, giayKho, giayType, epMat, paperGsm, roiA4Sl, roiA5Sl, bangTenLoai, bangTenMau,
     tranhType, tranhPreset, tranhPackage
   ]);
@@ -166,11 +168,14 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
     onCalculate(payload);
   };
 
-  const applyPresetDim = (w: number, h: number) => {
+  const applyPresetDim = (w: number, h: number, kho?: string) => {
     setWidthM(w);
     setHeightM(h);
     setWidthInput(String(w));
     setHeightInput(String(h));
+    if (kho) {
+      setGiayKho(kho);
+    }
   };
 
   return (
@@ -186,31 +191,39 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
             <>
               <button
                 type="button"
-                onClick={() => applyPresetDim(0.148, 0.21)}
-                className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
+                onClick={() => applyPresetDim(0.148, 0.21, 'a5')}
+                className={`px-2 py-0.5 rounded text-[11px] font-mono border cursor-pointer ${
+                  giayKho === 'a5' ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-800 border-zinc-200'
+                }`}
               >
-                A5 (0.15x0.21m)
+                Khổ A5 (14.8x21cm)
               </button>
               <button
                 type="button"
-                onClick={() => applyPresetDim(0.21, 0.3)}
-                className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
+                onClick={() => applyPresetDim(0.21, 0.3, 'a4')}
+                className={`px-2 py-0.5 rounded text-[11px] font-mono border cursor-pointer ${
+                  giayKho === 'a4' ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-800 border-zinc-200'
+                }`}
               >
-                A4 (0.21x0.3m)
+                Khổ A4 (21x30cm)
               </button>
               <button
                 type="button"
-                onClick={() => applyPresetDim(0.3, 0.42)}
-                className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
+                onClick={() => applyPresetDim(0.3, 0.42, 'a3')}
+                className={`px-2 py-0.5 rounded text-[11px] font-mono border cursor-pointer ${
+                  giayKho === 'a3' ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-800 border-zinc-200'
+                }`}
               >
-                A3 (0.3x0.42m)
+                Khổ A3 (30x42cm)
               </button>
               <button
                 type="button"
-                onClick={() => applyPresetDim(0.42, 0.6)}
-                className="px-2 py-0.5 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-[11px] font-mono border border-zinc-200 cursor-pointer"
+                onClick={() => applyPresetDim(0.42, 0.6, 'a2')}
+                className={`px-2 py-0.5 rounded text-[11px] font-mono border cursor-pointer ${
+                  giayKho === 'a2' ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-800 border-zinc-200'
+                }`}
               >
-                A2 (0.42x0.6m)
+                Khổ A2 (42x60cm)
               </button>
             </>
           ) : (
@@ -623,51 +636,34 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
 
           {giayGroup === 'giay' && (
             <div className="space-y-2">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold text-zinc-800 mb-1">Khổ giấy:</label>
-                  <select value={giayKho} onChange={(e) => setGiayKho(e.target.value)} className="w-full bg-white border border-zinc-300 rounded px-2 py-1.5">
-                    <option value="a5">A5</option>
-                    <option value="a4">A4</option>
-                    <option value="a3">A3</option>
-                    <option value="a2">A2</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block font-semibold text-zinc-800 mb-1">Loại giấy / Mặt:</label>
-                  <select value={giayType} onChange={(e) => setGiayType(e.target.value)} className="w-full bg-white border border-zinc-300 rounded px-2 py-1.5">
-                    <option value="day1">Dày — 1 mặt</option>
-                    <option value="day2">Dày — 2 mặt</option>
-                    <option value="bong1">Bóng dày — 1 mặt</option>
-                    <option value="bong2">Bóng dày — 2 mặt</option>
-                  </select>
-                </div>
+              <div>
+                <label className="block font-semibold text-zinc-800 mb-1">Loại giấy / Số mặt:</label>
+                <select value={giayType} onChange={(e) => setGiayType(e.target.value)} className="w-full bg-white border border-zinc-300 rounded px-3 py-2 text-zinc-900">
+                  <option value="day1">Dày — 1 mặt</option>
+                  <option value="day2">Dày — 2 mặt</option>
+                  <option value="bong1">Bóng dày — 1 mặt</option>
+                  <option value="bong2">Bóng dày — 2 mặt</option>
+                </select>
               </div>
               <div className="p-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-xs text-zinc-600 leading-relaxed">
-                • <strong>A4:</strong> 1 tấm 30k | 2 tấm 50k | từ tấm thứ 3 (+20k/tấm)<br />
-                • <strong>A3:</strong> 1 tấm 50k | 2 tấm 80k | từ tấm thứ 3 (+30k/tấm)<br />
-                • <strong>A2:</strong> 1 tấm 70k | 2 tấm 110k | từ tấm thứ 3 (+40k/tấm)<br />
-                • <strong>A5:</strong> 1 tấm 20k | 2 tấm 35k | từ tấm thứ 3 (+15k/tấm)
+                • <strong>Khổ đang chọn:</strong> <span className="font-bold text-zinc-900 bg-white px-2 py-0.5 rounded border border-zinc-300 font-mono uppercase">{giayKho}</span> (Đổi khổ bằng nút Nhanh A5/A4/A3 ở trên)<br />
+                • <strong>A4 / A5:</strong> 1m 7k | 2m 13k | Bóng 1m 9k | 2m 17k<br />
+                • <strong>A3:</strong> 1m 13k | 2m 26k | Bóng 1m 17k | 2m 34k
               </div>
             </div>
           )}
 
           {giayGroup === 'ep' && (
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block font-semibold text-zinc-800 mb-1">Khổ ép:</label>
-                <select value={giayKho} onChange={(e) => setGiayKho(e.target.value)} className="w-full bg-white border border-zinc-300 rounded px-2 py-1.5">
-                  <option value="a5">A5</option>
-                  <option value="a4">A4</option>
-                  <option value="a3">A3</option>
-                </select>
-              </div>
+            <div className="space-y-2">
               <div>
                 <label className="block font-semibold text-zinc-800 mb-1">Số mặt ép:</label>
-                <select value={epMat} onChange={(e) => setEpMat(parseInt(e.target.value) || 1)} className="w-full bg-white border border-zinc-300 rounded px-2 py-1.5">
-                  <option value={1}>1 mặt</option>
-                  <option value={2}>2 mặt</option>
+                <select value={epMat} onChange={(e) => setEpMat(parseInt(e.target.value) || 1)} className="w-full bg-white border border-zinc-300 rounded px-3 py-2 text-zinc-900">
+                  <option value={1}>1 mặt (Ép dẻo 1 bên)</option>
+                  <option value={2}>2 mặt (Ép dẻo 2 bên kín)</option>
                 </select>
+              </div>
+              <div className="p-2 bg-zinc-100 border border-zinc-200 rounded-lg text-xs text-zinc-600">
+                • <strong>Khổ ép đang chọn:</strong> <span className="font-bold text-zinc-900 bg-white px-2 py-0.5 rounded border border-zinc-300 font-mono uppercase">{giayKho}</span>
               </div>
             </div>
           )}
@@ -878,8 +874,27 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
         </div>
       )}
 
+      {/* Design Fee Option */}
+      <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-lg flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="hasDesignFee"
+            checked={hasDesignFee}
+            onChange={(e) => setHasDesignFee(e.target.checked)}
+            className="w-4 h-4 text-zinc-900 border-zinc-300 rounded focus:ring-zinc-900 cursor-pointer"
+          />
+          <label htmlFor="hasDesignFee" className="font-semibold text-zinc-900 cursor-pointer text-xs sm:text-sm">
+            Thêm phí thiết kế nội dung (+50.000đ)
+          </label>
+        </div>
+        <span className="text-[11px] text-zinc-500 font-normal hidden sm:inline">
+          (Nội dung mặc định: 0đ)
+        </span>
+      </div>
+
       {/* Manual Submit Button */}
-      <div className="pt-2">
+      <div className="pt-1">
         <Button type="submit" disabled={loading} className="w-full py-2.5">
           {loading ? (
             <span className="flex items-center justify-center gap-2">
