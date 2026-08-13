@@ -125,9 +125,9 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
       rollWidthTac: category === 'cat' && cutMode === 'le' ? rollWidthTac : undefined,
       sheetCount: category === 'cat' && cutMode === 'le' ? tacCount : undefined,
       hiflexType: category === 'hiflex' ? hiflexType : undefined,
-      frameTubeSize: category === 'hiflex' || category === 'bang' ? frameTubeSize : undefined,
-      marginCm: category === 'hiflex' ? marginCm : undefined,
-      hasLeg: category === 'hiflex' || category === 'bang' ? hasLeg : undefined,
+      frameTubeSize: category === 'bang' ? frameTubeSize : undefined,
+      marginCm: category === 'hiflex' || category === 'bang' ? marginCm : undefined,
+      hasLeg: category === 'bang' ? hasLeg : undefined,
       paperSubtype: category === 'giay' ? paperSubtypeMapped : undefined,
       paperGsm: category === 'giay' && (giayGroup === 'roi-a4' || giayGroup === 'roi-a5') ? gsmMapped : undefined,
       paperSides: category === 'giay' && giayGroup === 'ep' ? epMat : undefined,
@@ -455,8 +455,9 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
             <select
               value={materialCode}
               onChange={(e) => setMaterialCode(e.target.value)}
-              className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
+              className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900 font-medium"
             >
+              <option value="hiflex-khung">Bạt Hiflex — Căng khung sắt</option>
               <option value="tole-in">Tole — In decal dán</option>
               <option value="tole-cat">Tole — Cắt decal dán</option>
               <option value="form-in">Formex — In decal dán</option>
@@ -482,20 +483,18 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
             </select>
           </div>
 
-          {frameTubeSize > 0 && (
-            <div className="flex items-center gap-2 pt-1">
-              <input
-                type="checkbox"
-                id="hasLegBang"
-                checked={hasLeg}
-                onChange={(e) => setHasLeg(e.target.checked)}
-                className="w-4 h-4 text-zinc-900 border-zinc-300 rounded focus:ring-zinc-900 cursor-pointer"
-              />
-              <label htmlFor="hasLegBang" className="font-medium text-zinc-800 cursor-pointer text-sm">
-                Gia công thêm 2 chân đứng (+4m sắt)
-              </label>
-            </div>
-          )}
+          <div className="flex items-center gap-2 pt-1">
+            <input
+              type="checkbox"
+              id="hasLegBang"
+              checked={hasLeg}
+              onChange={(e) => setHasLeg(e.target.checked)}
+              className="w-4 h-4 text-zinc-900 border-zinc-300 rounded focus:ring-zinc-900 cursor-pointer"
+            />
+            <label htmlFor="hasLegBang" className="font-medium text-zinc-800 cursor-pointer text-sm">
+              Gia công thêm 2 chân đứng (+4m sắt)
+            </label>
+          </div>
 
           <div className="p-3 bg-zinc-100 border border-zinc-200 rounded-lg text-xs text-zinc-600 leading-relaxed">
             • Diện tích ≤ 0.06m²: Tính giá khoán Mini<br />
@@ -508,33 +507,20 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
       {/* HIFLEX / VAI specific options */}
       {category === 'hiflex' && (
         <div className="space-y-3 p-3 bg-zinc-50 rounded-lg border border-zinc-200">
-          <div>
-            <label className="block font-semibold text-zinc-800 mb-1">Loại Bạt Vải:</label>
-            <select
-              value={hiflexType}
-              onChange={(e) => setHiflexType(e.target.value)}
-              className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
-            >
-              <option value="lua">Lụa thường (Hiflex)</option>
-              <option value="xuyen_den">Vải xuyên đèn (Bạt 2 da)</option>
-              <option value="decal_dan">Decal dán vải hiflex</option>
-            </select>
-          </div>
-
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-semibold text-zinc-800 mb-1">Khung Sắt Sắt Vuông:</label>
+              <label className="block font-semibold text-zinc-800 mb-1">Loại Bạt Vải:</label>
               <select
-                value={frameTubeSize}
-                onChange={(e) => setFrameTubeSize(parseInt(e.target.value, 10))}
+                value={hiflexType}
+                onChange={(e) => setHiflexType(e.target.value)}
                 className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
               >
-                <option value={0}>Không có khung sắt (0đ)</option>
-                <option value={16}>Vuông 16 — 65.000đ/m</option>
-                <option value={20}>Vuông 20 — 85.000đ/m</option>
-                <option value={25}>Vuông 25 — 105.000đ/m</option>
+                <option value="lua">Lụa thường (Hiflex)</option>
+                <option value="xuyen_den">Vải xuyên đèn (Bạt 2 da)</option>
+                <option value="decal_dan">Decal dán vải hiflex</option>
               </select>
             </div>
+
             <div>
               <label className="block font-semibold text-zinc-800 mb-1">Căn Khung Biên:</label>
               <select
@@ -578,19 +564,6 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
 
           <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 leading-relaxed font-medium">
             🎁 <strong>Ưu đãi đơn &gt; 150.000đ:</strong> Tặng 4 khoen miễn phí + dán 2 cạnh ngắn!
-          </div>
-
-          <div className="flex items-center gap-2 pt-1">
-            <input
-              type="checkbox"
-              id="hasLeg"
-              checked={hasLeg}
-              onChange={(e) => setHasLeg(e.target.checked)}
-              className="w-4 h-4 text-zinc-900 border-zinc-300 rounded focus:ring-zinc-900 cursor-pointer"
-            />
-            <label htmlFor="hasLeg" className="font-medium text-zinc-800 cursor-pointer">
-              Có chân (thêm 2 chân khung × 2m = 4m sắt)
-            </label>
           </div>
 
           <div className="flex items-center gap-2 pt-1">
