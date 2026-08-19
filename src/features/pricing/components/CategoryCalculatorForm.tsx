@@ -393,17 +393,38 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
       {category === 'cat' && (
         <div className="space-y-3 p-3 bg-zinc-50 rounded-lg border border-zinc-200">
           <div>
+            <label className="block font-semibold text-zinc-800 mb-1">Loại Decal Cắt:</label>
+            <select
+              value={materialCode}
+              onChange={(e) => setMaterialCode(e.target.value)}
+              className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900 font-medium"
+            >
+              <option value="decal_si">Decal màu thường khổ 60 — 100.000đ/m²</option>
+              <option value="decal_pq">Decal PQ khổ 60 (Dạ quang) — 150.000đ/m²</option>
+              <option value="decal_tot">Decal tốt khổ 120 (2.5 năm) — 150.000đ/m²</option>
+              <option value="decal_in_be">Decal in bế khổ 100/120 — 200.000đ/m²</option>
+              <option value="decal_uv">Decal UV khổ 100/120 — 300.000đ/m²</option>
+            </select>
+          </div>
+
+          <div>
             <label className="block font-semibold text-zinc-800 mb-1">Kiểu Cắt Decal:</label>
             <select
               value={cutMode}
               onChange={(e) => setCutMode(e.target.value)}
               className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
             >
-              <option value="chuan">Cắt phẳng vô khổ m²</option>
+              <option value="chuan">Cắt phẳng vô khổ m² (Ép chiều ngắn vào khổ cuộn)</option>
               <option value="vien">Cắt + viền chữ (giá khoán theo cạnh)</option>
               <option value="le">Cắt lẻ theo tấc</option>
             </select>
           </div>
+
+          {cutMode === 'chuan' && (
+            <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 leading-relaxed font-medium">
+              💡 <strong>Quy tắc vô khổ cuộn:</strong> 1 trong 2 chiều của khách sẽ tự động ép vừa khổ cuộn cố định (VD: 30x40cm màu thường khổ 60cm &rarr; ép thành 60cm x 30cm = 0.18m²).
+            </div>
+          )}
 
           {cutMode === 'vien' && (
             <div>
