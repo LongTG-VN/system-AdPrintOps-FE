@@ -274,12 +274,6 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
             onChange={(e) => setBoxCount(Math.max(1, parseInt(e.target.value) || 1))}
             className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900 focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
           />
-          <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-lg text-xs text-zinc-600 leading-relaxed">
-            • 1–4 hộp: <strong>70.000đ/hộp</strong><br />
-            • Tròn 5 hộp: <strong>40.000đ/hộp (Khuyến mãi)</strong><br />
-            • 6–9 hộp: <strong>70.000đ/hộp</strong><br />
-            • ≥10 hộp: <strong>24.000đ/hộp</strong>
-          </div>
         </div>
       )}
 
@@ -401,10 +395,6 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
             </select>
           </div>
 
-          <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 leading-relaxed font-medium">
-            💡 <strong>Quy tắc vô khổ cuộn:</strong> 1 trong 2 chiều của khách sẽ tự động ép vừa khổ cuộn cố định (VD: 30x40cm màu thường khổ 60cm &rarr; ép thành 60cm x 30cm = 0.18m²).
-          </div>
-
           {cutMode === 'vien' && (
             <div>
               <label className="block font-semibold text-zinc-800 mb-1">Cạnh lớn nhất (m):</label>
@@ -495,12 +485,6 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
               Gia công thêm 2 chân đứng (+4m sắt)
             </label>
           </div>
-
-          <div className="p-3 bg-zinc-100 border border-zinc-200 rounded-lg text-xs text-zinc-600 leading-relaxed">
-            • Diện tích ≤ 0.06m²: Tính giá khoán Mini<br />
-            • Diện tích &lt; 0.5m²: Tính giá khoán Vừa (Mid)<br />
-            • Diện tích &ge; 0.5m²: Tính giá khoán Khổ Lớn (Large)
-          </div>
         </div>
       )}
 
@@ -562,10 +546,6 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
             </div>
           </div>
 
-          <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 leading-relaxed font-medium">
-            🎁 <strong>Ưu đãi đơn &gt; 150.000đ:</strong> Tặng 4 khoen miễn phí + dán 2 cạnh ngắn!
-          </div>
-
           <div className="flex items-center gap-2 pt-1">
             <input
               type="checkbox"
@@ -618,11 +598,6 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
                   <option value="bong2">Bóng dày — 2 mặt</option>
                 </select>
               </div>
-              <div className="p-2.5 bg-zinc-100 border border-zinc-200 rounded-lg text-xs text-zinc-600 leading-relaxed">
-                • <strong>Khổ đang chọn:</strong> <span className="font-bold text-zinc-900 bg-white px-2 py-0.5 rounded border border-zinc-300 font-mono uppercase">{giayKho}</span> (Đổi khổ bằng nút Nhanh A5/A4/A3 ở trên)<br />
-                • <strong>A4 / A5:</strong> 1m 7k | 2m 13k | Bóng 1m 9k | 2m 17k<br />
-                • <strong>A3:</strong> 1m 13k | 2m 26k | Bóng 1m 17k | 2m 34k
-              </div>
             </div>
           )}
 
@@ -634,9 +609,6 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
                   <option value={1}>1 mặt (Ép dẻo 1 bên)</option>
                   <option value={2}>2 mặt (Ép dẻo 2 bên kín)</option>
                 </select>
-              </div>
-              <div className="p-2 bg-zinc-100 border border-zinc-200 rounded-lg text-xs text-zinc-600">
-                • <strong>Khổ ép đang chọn:</strong> <span className="font-bold text-zinc-900 bg-white px-2 py-0.5 rounded border border-zinc-300 font-mono uppercase">{giayKho}</span>
               </div>
             </div>
           )}
