@@ -363,12 +363,6 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
               Cán màng bảo vệ (+50.000đ/m²)
             </label>
           </div>
-          <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-lg text-xs text-zinc-600 leading-relaxed">
-            • Khổ cuộn: 90cm, 100cm, 120cm, 1m5.<br />
-            • &lt; 0.1m²: 200k/m² | &lt; 1.0m²: 130k/m².<br />
-            • <strong>Khổ &ge; 1.0m² (Khổ 1m): 120.000đ/m²</strong>.<br />
-            • &ge; 3m²: 110k/m² | &ge; 5m²: 100k/m² | &ge; 10m²: 90k/m² | &ge; 15m²: 80k/m².
-          </div>
         </div>
       )}
 
