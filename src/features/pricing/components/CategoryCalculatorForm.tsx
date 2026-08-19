@@ -401,24 +401,9 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
             </select>
           </div>
 
-          <div>
-            <label className="block font-semibold text-zinc-800 mb-1">Kiểu Cắt Decal:</label>
-            <select
-              value={cutMode}
-              onChange={(e) => setCutMode(e.target.value)}
-              className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
-            >
-              <option value="chuan">Cắt phẳng vô khổ m² (Ép chiều ngắn vào khổ cuộn)</option>
-              <option value="vien">Cắt + viền chữ (giá khoán theo cạnh)</option>
-              <option value="le">Cắt lẻ theo tấc</option>
-            </select>
+          <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 leading-relaxed font-medium">
+            💡 <strong>Quy tắc vô khổ cuộn:</strong> 1 trong 2 chiều của khách sẽ tự động ép vừa khổ cuộn cố định (VD: 30x40cm màu thường khổ 60cm &rarr; ép thành 60cm x 30cm = 0.18m²).
           </div>
-
-          {cutMode === 'chuan' && (
-            <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 leading-relaxed font-medium">
-              💡 <strong>Quy tắc vô khổ cuộn:</strong> 1 trong 2 chiều của khách sẽ tự động ép vừa khổ cuộn cố định (VD: 30x40cm màu thường khổ 60cm &rarr; ép thành 60cm x 30cm = 0.18m²).
-            </div>
-          )}
 
           {cutMode === 'vien' && (
             <div>
