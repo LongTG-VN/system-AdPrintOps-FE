@@ -56,6 +56,8 @@ export interface CalculatePriceRequest {
   tranhPackage?: string;
   eyeletCount?: number;
   polePocketMode?: string;
+  hastagThickness?: string;
+  hasCncCut?: boolean;
 }
 
 export interface CalculatePriceResponse {
@@ -75,11 +77,12 @@ export interface CalculatePriceResponse {
 
 export type PricingTabCategory =
   | 'decal'
+  | 'hiflex'
+  | 'hastag'
   | 'tem'
   | 'cat'
   | 'card'
   | 'bang'
-  | 'hiflex'
   | 'giay'
   | 'tranh'
   | 'khac';

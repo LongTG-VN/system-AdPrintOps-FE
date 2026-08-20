@@ -174,9 +174,10 @@ export const AdminPricingManagement: React.FC<AdminPricingManagementProps> = ({ 
               className="bg-white border border-zinc-300 text-zinc-900 text-xs rounded-lg px-2.5 py-1.5 focus:ring-1 focus:ring-zinc-900"
             >
               <option value="DECAL">Decal (In / Cắt)</option>
+              <option value="HIFLEX">In Bạt (Hiflex)</option>
+              <option value="HASTAG">Hastag Bảng Tên</option>
               <option value="TEM">In Tem</option>
               <option value="CARD">Card Visit</option>
-              <option value="HIFLEX">Bạt Hiflex</option>
               <option value="BANG">Bảng Hiệu Cứng</option>
               <option value="GIAY">In Giấy & Tờ Rơi</option>
               <option value="TRANH">Tranh Điện & Biển Số Nhà</option>

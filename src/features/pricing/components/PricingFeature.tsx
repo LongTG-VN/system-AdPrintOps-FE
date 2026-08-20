@@ -11,6 +11,7 @@ import {
   FileText, 
   Image as ImageIcon, 
   PlusCircle, 
+  Sparkles,
   Calculator,
   Settings,
   History
@@ -67,11 +68,12 @@ export function PricingFeature({ onOrderCreated, hideHeader = false }: PricingFe
 
   const tabs = [
     { id: 'decal' as PricingTabCategory, name: 'In Decal', icon: Printer },
+    { id: 'hiflex' as PricingTabCategory, name: 'In Bạt (Hiflex)', icon: Flag },
+    { id: 'hastag' as PricingTabCategory, name: 'Hastag', icon: Sparkles },
     { id: 'tem' as PricingTabCategory, name: 'In Tem', icon: Tag },
     { id: 'cat' as PricingTabCategory, name: 'Cắt Decal', icon: Scissors },
     { id: 'card' as PricingTabCategory, name: 'Card Visit', icon: IdCard },
     { id: 'bang' as PricingTabCategory, name: 'Bảng Hiệu', icon: Layout },
-    { id: 'hiflex' as PricingTabCategory, name: 'Bạt Hiflex', icon: Flag },
     { id: 'giay' as PricingTabCategory, name: 'In Giấy', icon: FileText },
     { id: 'tranh' as PricingTabCategory, name: 'Tranh Điện', icon: ImageIcon },
     { id: 'khac' as PricingTabCategory, name: 'Phụ Phí', icon: PlusCircle },

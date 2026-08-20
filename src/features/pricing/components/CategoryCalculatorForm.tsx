@@ -51,6 +51,9 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
   const [tranhPreset, setTranhPreset] = useState<string>('A4');
   const [tranhPackage, setTranhPackage] = useState<string>('full');
 
+  const [hastagThickness, setHastagThickness] = useState<string>('3li');
+  const [hasCncCut, setHasCncCut] = useState<boolean>(false);
+
   const [materials, setMaterials] = useState<PricingMaterial[]>([]);
 
   useEffect(() => {
@@ -136,6 +139,8 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
       tranhPackage: category === 'tranh' ? tranhPackage : category === 'giay' && giayGroup === 'bangten' ? bangTenMau : undefined,
       eyeletCount: category === 'hiflex' || category === 'decal' ? eyeletCount : undefined,
       polePocketMode: category === 'hiflex' || category === 'decal' ? polePocketMode : undefined,
+      hastagThickness: category === 'hastag' ? hastagThickness : undefined,
+      hasCncCut: category === 'hastag' ? hasCncCut : undefined,
       customFee: hasDesignFee ? 50000 : undefined,
     };
   }, [
@@ -143,7 +148,8 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
     cutMode, maxSideM, rollWidthTac, tacCount, hiflexType, frameTubeSize, marginCm, hasLeg,
     eyeletCount, polePocketMode, hasDesignFee,
     giayGroup, giayKho, giayType, epMat, paperGsm, roiA4Sl, roiA5Sl, bangTenLoai, bangTenMau,
-    tranhType, tranhPreset, tranhPackage
+    tranhType, tranhPreset, tranhPackage,
+    hastagThickness, hasCncCut
   ]);
 
   const lastPayloadRef = React.useRef<string>('');
@@ -180,8 +186,8 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 text-xs sm:text-sm">
-      {/* Dimension Presets for quick selection (Decal, Hiflex/Lụa, Giấy only) */}
-      {(category === 'decal' || category === 'hiflex' || category === 'giay') && (
+      {/* Dimension Presets for quick selection (Decal, Hiflex/Lụa, Hastag, Giấy) */}
+      {(category === 'decal' || category === 'hiflex' || category === 'hastag' || category === 'giay') && (
         <div className="flex items-center gap-1.5 flex-wrap pb-1">
           <span className="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider flex items-center gap-1 mr-1">
             <Zap className="w-3 h-3 text-zinc-700" /> Nhanh:
@@ -224,6 +230,37 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
                 }`}
               >
                 Khổ A2 (42x60cm)
+              </button>
+            </>
+          ) : category === 'hastag' ? (
+            <>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(0.15, 0.20)}
+                className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-medium border border-zinc-200 cursor-pointer transition"
+              >
+                10-15x20cm
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(0.15, 0.35)}
+                className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-medium border border-zinc-200 cursor-pointer transition"
+              >
+                15x30-35cm
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(0.20, 0.30)}
+                className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-medium border border-zinc-200 cursor-pointer transition"
+              >
+                20x30cm
+              </button>
+              <button
+                type="button"
+                onClick={() => applyPresetDim(0.20, 0.40)}
+                className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-medium border border-zinc-200 cursor-pointer transition"
+              >
+                20x35-40cm
               </button>
             </>
           ) : (
@@ -343,6 +380,39 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
             <label htmlFor="can-decal" className="font-medium text-zinc-800 cursor-pointer">
               Cán màng bảo vệ (+50.000đ/m²)
             </label>
+          </div>
+        </div>
+      )}
+
+      {/* HASTAG specific options */}
+      {category === 'hastag' && (
+        <div className="space-y-3 pt-1">
+          <div>
+            <label className="block font-semibold text-zinc-800 mb-1">Chất Liệu Formex:</label>
+            <select
+              value={hastagThickness}
+              onChange={(e) => setHastagThickness(e.target.value)}
+              className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900 font-medium"
+            >
+              <option value="3li">Formex 3li (3mm) — Nhẹ & Tiết kiệm</option>
+              <option value="5li">Formex 5li (5mm) — Dày dặn & Chắc chắn</option>
+            </select>
+          </div>
+          <div className="flex items-center gap-2 pt-1">
+            <input
+              type="checkbox"
+              id="cnc-hastag"
+              checked={hasCncCut}
+              onChange={(e) => setHasCncCut(e.target.checked)}
+              className="w-4 h-4 text-zinc-900 border-zinc-300 rounded focus:ring-zinc-900 cursor-pointer"
+            />
+            <label htmlFor="cnc-hastag" className="font-medium text-zinc-800 cursor-pointer">
+              Gia công cắt CNC tạo hình theo mẫu (+20.000đ/cái)
+            </label>
+          </div>
+          <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-xs font-medium flex items-center gap-2">
+            <span>🎁</span>
+            <span>Chiết khấu số lượng: Đơn từ <strong>2 cái</strong> giảm <strong>5.000đ/cái</strong>, từ <strong>4 cái trở lên</strong> giảm <strong>10.000đ/cái</strong>!</span>
           </div>
         </div>
       )}
