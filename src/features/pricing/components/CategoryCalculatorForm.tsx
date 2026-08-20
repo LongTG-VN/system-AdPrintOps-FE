@@ -329,6 +329,7 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
             >
               <option value="duc">Decal in đục (màu) — Khổ max 1m52 (Đồng giá)</option>
               <option value="trong">Decal in trong — Khổ max 1m27 (Đồng giá)</option>
+              <option value="uv">In Decal công nghệ UV (Bảng giá UV riêng)</option>
             </select>
           </div>
           <div className="flex items-center gap-2">
