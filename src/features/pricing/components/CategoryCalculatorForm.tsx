@@ -231,30 +231,16 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
               <button
                 type="button"
                 onClick={() => applyPresetDim(0.5, 1.0)}
-                className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold border border-zinc-200 cursor-pointer transition"
+                className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-medium border border-zinc-200 cursor-pointer transition"
               >
-                Nửa mét (0.5m x 1m)
+                0.5m x 1m
               </button>
               <button
                 type="button"
                 onClick={() => applyPresetDim(1.0, 1.0)}
-                className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold border border-zinc-200 cursor-pointer transition"
+                className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-medium border border-zinc-200 cursor-pointer transition"
               >
-                1 mét vuông (1m²)
-              </button>
-              <button
-                type="button"
-                onClick={() => applyPresetDim(1.0, 2.0)}
-                className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold border border-zinc-200 cursor-pointer transition"
-              >
-                2 mét vuông (2m²)
-              </button>
-              <button
-                type="button"
-                onClick={() => applyPresetDim(1.0, 3.0)}
-                className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold border border-zinc-200 cursor-pointer transition"
-              >
-                3 mét vuông (3m²)
+                1m x 1m
               </button>
             </>
           )}
