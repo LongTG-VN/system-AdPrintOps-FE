@@ -780,6 +780,9 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
                   <option value="A1">A1 (60×80cm)</option>
                   <option value="50X70">50×70cm</option>
                   <option value="60X90">60×90cm</option>
+                  <option value="30X120">30×120cm</option>
+                  <option value="60X120">60×120cm</option>
+                  <option value="80X120">80×120cm</option>
                 </select>
               </div>
               <div>
