@@ -327,8 +327,8 @@ export function CategoryCalculatorForm({ category, onCalculate, loading }: Categ
               onChange={(e) => setMaterialCode(e.target.value)}
               className="w-full bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-900"
             >
-              <option value="thuong">Decal in (khổ chuẩn)</option>
-              <option value="trong">Decal trong / đẹp (Hệ số x1.5)</option>
+              <option value="duc">Decal in đục (màu) — Khổ max 1m52 (Đồng giá)</option>
+              <option value="trong">Decal in trong — Khổ max 1m27 (Đồng giá)</option>
             </select>
           </div>
           <div className="flex items-center gap-2">
